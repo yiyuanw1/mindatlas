@@ -7,7 +7,7 @@ $route = substr($route, 1);
 try {
     // error_reporting(0);
     if (!str_starts_with($route, 'api/')) throw new Error("Not Found");
-    $route = explode('/', $route)[1];
+    $route = explode('/', explode('?', $route)[0])[1];
     require "route/$route.class.php";
 } catch (Error $e) {
     include_once 'route/abstract.class.php';

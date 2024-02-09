@@ -1,21 +1,32 @@
 <?php
-require 'route/abstract.class.php';
+require_once 'route/abstract.class.php';
 
-class UserAPI extends API{
+class UserAPI extends API
+{
+
+    function get_one($id)
+    {
+        $stmt = $this->db->prepare('SELECT * FROM users WHERE id = :id');
+        $stmt->bindValue(':id', $id);
+        $stmt->execute();
+        return $stmt->fetch();
+    }
+
+    function get_all()
+    {
+        $stmt = $this->db->prepare('SELECT * FROM users');
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
 
     protected function handleGet()
     {
         $route = $_SERVER['REQUEST_URI'];
         $route = substr($route, strlen('/user/'));
         if ($route != '') {
-            $stmt = $this->db->prepare('SELECT * FROM users WHERE id = :id');
-            $stmt->bindValue(':id', $route);
-            $stmt->execute();
-            self::sendResponse($stmt->fetch());
+            self::sendResponse($this->get_one($route));
         } else {
-            $stmt = $this->db->prepare('SELECT * FROM users');
-            $stmt->execute();
-            self::sendResponse($stmt->fetchAll());
+            self::sendResponse($this->get_all());
         }
     }
 
@@ -48,7 +59,7 @@ class UserAPI extends API{
             $stmt->bindValue(':id', $route);
             $stmt->bindValue(':firstname', $data['firstname']);
             $stmt->bindValue(':surname', $data['surname']);
-            
+
             if ($stmt->execute()) {
                 self::sendResponse('OK');
             } else {
@@ -58,7 +69,7 @@ class UserAPI extends API{
             self::handleError(400, "Bad Request");
         }
     }
-    
+
     protected function handleDelete()
     {
         $route = $_SERVER['REQUEST_URI'];
@@ -75,10 +86,8 @@ class UserAPI extends API{
             self::handleError(400, 'Bad Request');
         }
     }
-
 }
 
 $method = $_SERVER['REQUEST_METHOD'];
 $api = new UserAPI();
 $api->handle($method);
-?>

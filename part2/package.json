@@ -10,7 +10,9 @@
 		"react": "^18.2.0",
 		"react-bootstrap": "^2.10.0",
 		"react-dom": "^18.2.0",
+		"react-dropdown-input": "^0.1.11",
 		"react-paginate": "^8.2.0",
+		"react-router-dom": "^6.22.0",
 		"react-scripts": "5.0.1",
 		"typescript": "^4.9.5",
 		"web-vitals": "^2.1.4"
@@ -48,7 +50,8 @@
 		"@types/node": "^16.18.79",
 		"@types/react": "^18.2.55",
 		"@types/react-dom": "^18.2.19",
-		"@types/react-paginate": "^7.1.4"
+		"@types/react-paginate": "^7.1.4",
+		"@types/react-router-dom": "^5.3.3"
 	},
 	"overrides": {
 		"nth-check": "$nth-check",

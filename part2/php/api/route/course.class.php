@@ -1,21 +1,29 @@
 <?php 
-require 'route/abstract.class.php';
+require_once 'route/abstract.class.php';
 
 class CourseAPI extends API{
+
+    function get_one($id){
+        $stmt = $this->db->prepare('SELECT * FROM courses WHERE id = :id');
+        $stmt->bindValue(':id', $id);
+        $stmt->execute();
+        return $stmt->fetch();
+    }
+
+    function get_all(){
+        $stmt = $this->db->prepare('SELECT * FROM courses');
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
 
     protected function handleGet()
     {
         $route = $_SERVER['REQUEST_URI'];
         $route = substr($route, strlen('/course/'));
         if ($route != '') {
-            $stmt = $this->db->prepare('SELECT * FROM courses WHERE id = :id');
-            $stmt->bindValue(':id', $route);
-            $stmt->execute();
-            self::sendResponse($stmt->fetch());
+            self::sendResponse($this->get_one($route));
         } else {
-            $stmt = $this->db->prepare('SELECT * FROM courses');
-            $stmt->execute();
-            self::sendResponse($stmt->fetchAll());
+            self::sendResponse($this->get_all());
         }
     }
 

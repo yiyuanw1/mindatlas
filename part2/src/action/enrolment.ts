@@ -29,3 +29,17 @@ export const fetchEnrolments = async (
 		.then(({ data }) => Promise.resolve(data))
 		.catch((error) => Promise.reject(error));
 };
+
+export const fetchEnrolmentCount = async (
+	params?: {
+		filter?: {
+			course?: number;
+			user?: number;
+		};
+		search?: string;
+	},) => {
+	return axios
+		.get<{count: number}>("http://localhost:9000/api/enrolment/count", {params})
+		.then(({ data }) => Promise.resolve(data))
+		.catch((error) => Promise.reject(error));
+};
