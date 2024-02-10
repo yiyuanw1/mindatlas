@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { EnrolmentTable } from "./Enrolment";
+import { UserDropDown } from "./UserDropDown";
 import { Form, InputGroup } from "react-bootstrap";
+import { CourseDropDown } from "./CourseDropDown";
 
 function Homepage() {
   const [course, setCourse] = useState<number>();
@@ -13,21 +15,23 @@ function Homepage() {
         Enrolment List
       </h2>
       <div className="d-flex w-100 p-3">
+        <UserDropDown setValue={setUser} />
+        <CourseDropDown setValue={setCourse} />
         <InputGroup className="ml-auto">
-          <InputGroup.Text id="search">Search: </InputGroup.Text>
+          <InputGroup.Text id="search" ><strong>Search: </strong></InputGroup.Text>
           <Form.Control
             placeholder="Press Enter to search..."
             aria-label="search"
             aria-describedby="search"
             onKeyDown={(e) => {
-              if (e.code === 'Enter') {
-                setSearch(e.currentTarget.value)
+              if (e.code === "Enter") {
+                setSearch(e.currentTarget.value);
               }
             }}
           />
         </InputGroup>
       </div>
-      <EnrolmentTable filter={{ course, user }} search={search} />
+      <EnrolmentTable course={course} user={user} search={search} />
     </div>
   );
 }

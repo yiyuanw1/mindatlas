@@ -17,10 +17,12 @@ const STATUS_COLOR = {
 };
 
 export const EnrolmentTable = ({
-  filter,
+  course,
+  user,
   search,
 }: {
-  filter: { course?: number; user?: number };
+  course?: number;
+  user?: number;
   search?: string;
 }) => {
   const [enrolments, setEnrolments] = useState<Enrolment[]>([]);
@@ -28,14 +30,14 @@ export const EnrolmentTable = ({
   const [page, setPage] = useState<number>(0);
 
   useEffect(() => {
-    fetchEnrolmentCount({ filter, search })
+    fetchEnrolmentCount({ course, user, search })
       .then(({ count }) => setRowCount(count))
       .catch((err) => console.log(err));
-  }, [search, filter]);
+  }, [search, course, user]);
 
   useEffect(() => {
     setPage(0);
-  }, [search, filter])
+  }, [search, course, user]);
 
   useEffect(() => {
     const source = axios.CancelToken.source();
@@ -43,7 +45,7 @@ export const EnrolmentTable = ({
     fetchEnrolments(
       {
         page,
-        filter,
+        course, user,
         search,
       },
       {
@@ -57,7 +59,7 @@ export const EnrolmentTable = ({
       });
 
     return () => source.cancel();
-  }, [page, filter, search]);
+  }, [page, course, user, search]);
 
   return (
     <>
