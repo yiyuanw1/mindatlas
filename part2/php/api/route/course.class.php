@@ -1,16 +1,19 @@
-<?php 
+<?php
 require_once 'route/abstract.class.php';
 
-class CourseAPI extends API{
+class CourseAPI extends API
+{
 
-    function get_one($id){
+    function get_one($id)
+    {
         $stmt = $this->db->prepare('SELECT * FROM courses WHERE id = :id');
         $stmt->bindValue(':id', $id);
         $stmt->execute();
         return $stmt->fetch();
     }
 
-    function get_all(){
+    function get_all()
+    {
         $stmt = $this->db->prepare('SELECT * FROM courses');
         $stmt->execute();
         return $stmt->fetchAll();
@@ -18,8 +21,8 @@ class CourseAPI extends API{
 
     protected function handleGet()
     {
-        $route = $_SERVER['REQUEST_URI'];
-        $route = substr($route, strlen('/course/'));
+        $route = substr(explode('?', $_SERVER['REQUEST_URI'])[0], strlen('/api/course/'));
+
         if ($route != '') {
             self::sendResponse($this->get_one($route));
         } else {
@@ -56,7 +59,7 @@ class CourseAPI extends API{
             $stmt->bindValue(':id', $route);
             $stmt->bindValue(':title', $data['title']);
             $stmt->bindValue(':description', $data['description']);
-            
+
             if ($stmt->execute()) {
                 self::sendResponse('OK');
             } else {
@@ -66,7 +69,7 @@ class CourseAPI extends API{
             self::handleError(400, "Bad Request");
         }
     }
-    
+
     protected function handleDelete()
     {
         $route = $_SERVER['REQUEST_URI'];
@@ -83,10 +86,8 @@ class CourseAPI extends API{
             self::handleError(400, 'Bad Request');
         }
     }
-
 }
 
 $method = $_SERVER['REQUEST_METHOD'];
 $api = new CourseAPI();
 $api->handle($method);
-?>

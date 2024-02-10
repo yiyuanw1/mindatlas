@@ -21,8 +21,7 @@ class UserAPI extends API
 
     protected function handleGet()
     {
-        $route = $_SERVER['REQUEST_URI'];
-        $route = substr($route, strlen('/user/'));
+        $route = substr(explode('?', $_SERVER['REQUEST_URI'])[0], strlen('/api/user/'));
         if ($route != '') {
             self::sendResponse($this->get_one($route));
         } else {

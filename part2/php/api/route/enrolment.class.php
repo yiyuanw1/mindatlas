@@ -6,20 +6,23 @@ class EnrolmentAPI extends API
 
     final const STATUS = ['not started', 'in progress', 'completed'];
 
-    private function extract_condition() {
+    private function extract_condition()
+    {
 
         $condition = "";
         $condition_values = array();
-        if (isset($_GET['filter'])) {
-            $filter = $_GET['filter'];
-            foreach (explode('&', $filter) as $chunk) {
-                if ($condition != '') $condition .= ' AND ';
-                $param = explode('=', $chunk);
-                $condition .= "{$param[0]}ID=:{$param[0]}";
-                $condition_values[":{$param[0]}"] = intval($param[1]);
-            }
+        if (isset($_GET['course'])) {
+            $course_filter = $_GET['course'];
+            if ($condition != '') $condition .= ' AND ';
+            $condition .= "courseID=:course";
+            $condition_values["course"] = intval($course_filter);
         }
-
+        if (isset($_GET['user'])) {
+            $user_filter = $_GET['user'];
+            if ($condition != '') $condition .= ' AND ';
+            $condition .= "userID=:user";
+            $condition_values["user"] = intval($user_filter);
+        }
         if (isset($_GET['search'])) {
             $search = $_GET['search'];
             if ($condition != '') $condition .= ' AND ';
@@ -48,6 +51,7 @@ class EnrolmentAPI extends API
                     JOIN Users u ON e.userID = u.ID
                     JOIN Courses c ON e.courseID = c.ID
                     $condition
+                    ORDER BY e.ID
                     LIMIT :rows
                     OFFSET :offset";
 
