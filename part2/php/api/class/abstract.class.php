@@ -1,18 +1,10 @@
 <?php 
 abstract class API {
-    
-    protected $db;
 
     abstract protected function handleGet();
     abstract protected function handlePost();
     abstract protected function handleDelete();
     abstract protected function handlePut();
-
-    public function __construct()
-    {
-        include_once 'DB.class.php';
-        $this->db = DB::getInstance();
-    }
 
     public function handle($method, ...$args) {
         switch($method){
