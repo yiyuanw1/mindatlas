@@ -19,7 +19,7 @@ export const fetchEnrolments = async (
 	config?: AxiosRequestConfig
 ) => {
 	return axios
-		.get<Enrolment[]>("http://localhost:9000/api/enrolment", {
+		.get<Enrolment[]>(`${process.env.REACT_APP_API_URL}/enrolment`, {
 			params,
 			...config,
 			validateStatus: (status) => 200 <= status && status < 300,
@@ -34,7 +34,7 @@ export const fetchEnrolmentCount = async (params?: {
 	search?: string;
 }) => {
 	return axios
-		.get<{ count: number }>("http://localhost:9000/api/enrolment/count", {
+		.get<{ count: number }>(`${process.env.REACT_APP_API_URL}/enrolment/count`, {
 			params,
 		})
 		.then(({ data }) => Promise.resolve(data))
