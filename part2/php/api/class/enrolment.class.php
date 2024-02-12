@@ -6,12 +6,12 @@ class EnrolmentAPI extends API
 {
     protected function handleGet()
     {
-        $route = substr(explode('?', $_SERVER['REQUEST_URI'])[0], strlen('/api/enrolment/'));
+        $route = explode('/api/enrolment', explode('?', $_SERVER['REQUEST_URI'])[0])[1];
         switch ($route) {
             case '':
                 self::sendResponse(EnrolmentController::get_record());
                 break;
-            case 'count':
+            case '/count':
                 self::sendResponse(EnrolmentController::get_record_counts());
                 break;
             default:
