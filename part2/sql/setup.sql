@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS `Users` (
     ID INT AUTO_INCREMENT PRIMARY KEY,
     firstname varchar(255),
-    lastname varchar(255)
+    surname varchar(255)
 );
 
 CREATE TABLE IF NOT EXISTS `Courses` (
