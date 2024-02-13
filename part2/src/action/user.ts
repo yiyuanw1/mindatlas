@@ -8,7 +8,7 @@ export type User = {
 
 export const fetchUsers = async (config?: AxiosRequestConfig) => {
 	return axios
-		.get<User[]>("http://localhost:9000/api/user", { ...config })
+		.get<User[]>(`${process.env.REACT_APP_API_URL}/user`, { ...config })
 		.then(({ data }) => Promise.resolve(data))
 		.catch((err) => Promise.reject(err));
 };

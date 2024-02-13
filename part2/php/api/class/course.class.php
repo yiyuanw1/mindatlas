@@ -7,10 +7,9 @@ class CourseAPI extends API
 
     protected function handleGet()
     {
-        $route = substr(explode('?', $_SERVER['REQUEST_URI'])[0], strlen('/api/course/'));
-
+        $route = explode('/api/course', $_SERVER['REQUEST_URI'])[1];
         if ($route != '') {
-            self::sendResponse(CourseController::get_one($route));
+            self::sendResponse(CourseController::get_one(substr($route,1)));
         } else {
             self::sendResponse(CourseController::get_all());
         }
